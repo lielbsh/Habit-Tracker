@@ -19,14 +19,8 @@ const userSchema = new Schema({
     firstName: {
       type: String,
     },
-    lastName: {
-      type: String,
-    },
     habits: [habitSchema],
     analytics: analyticsSchema,
-    profilePicture: {
-      type: String,
-    },
     createdAt: {
       type: Date,
       default: Date.now,

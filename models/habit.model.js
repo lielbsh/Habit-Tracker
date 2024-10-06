@@ -1,28 +1,38 @@
 const mongoose = require('mongoose');
 
 const habitSchema = new mongoose.Schema({
-  name: {
-    type: String,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
     required: true,
+  },
+  title: {
+    type: String,
+    required: [true, 'Please add a title for the habit'],
+    trim: true,
+    minlength: [3, 'Title must be at least 3 characters'],
+  },
+  description: {
+    type: String,
+    trim: true,
   },
   frequency: {
     type: String,
-    enum: ['daily', 'weekly', 'monthly'],
-    required: true,
+    enum: ['Daily', 'Weekly', 'Monthly'],
+    required: [true, 'Please select a frequency'],
   },
   startDate: {
     type: Date,
     default: Date.now,
   },
-  isCompleted: {
-    type: Boolean,
-    default: false,
-  },
+  completedDates: [{
+    type: Date,
+  }],
   streak: {
     type: Number,
     default: 0,
   },
-},{timestamps: true});
+}, { timestamps: true });
 
 // Create the Habit model
 const Habit = mongoose.model('Habit', habitSchema);
