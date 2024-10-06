@@ -16,19 +16,13 @@ const userSchema = new Schema({
       type: String,
       required: true,
     },
-    firstName: {
-      type: String,
-    },
-    habits: [habitSchema],
-    analytics: analyticsSchema,
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
-    updatedAt: {
-      type: Date,
-      default: Date.now,
-    },
+    // firstName: {
+    //   type: String,
+    // },
+    // updatedAt: {
+    //   type: Date,
+    //   default: Date.now,
+    // },
 },{timestamps: true});
 
 const User = mongoose.model('User', userSchema)
