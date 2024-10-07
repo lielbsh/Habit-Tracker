@@ -94,3 +94,27 @@ exports.login = async (req, res) => {
     res.status(500).send('Server Error');
   }
 };
+
+
+// Get User Info
+exports.getUserInfo = async (req, res) => {
+    const userId = req.query.userId; 
+    if (!userId) {
+        return res.status(400).json({ message: 'User ID is required' });
+      }
+
+    try {
+      const user = await User.findById(userId).select('-password'); // Exclude password from the result
+      if (!user) {
+        console.log('User not found')
+        return res.status(404).json({ message: 'User not found' });
+      } else {
+        console.log('Return the user information')
+        res.json(user); // Return the user information
+      }
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send('Server Error');
+    }
+  };
+  
