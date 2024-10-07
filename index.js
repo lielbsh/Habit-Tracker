@@ -2,12 +2,11 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-// const Habit = require('../models/habit.model.js');
 
 // Import Routes
-const authRoutes = require('./routes/authRoutes');
+// const authRoutes = require('./routes/authRoutes');
 // const userRoutes = require('./routes/usersRoutes');
-// const habitRoutes = require('./routes/habitRoutes');
+const habitRoutes = require('./routes/habitsRouts');
 
 const app = express()
 
@@ -15,30 +14,10 @@ const app = express()
 app.use(cors());
 app.use(express.json());
 
-// Use Routes
-app.use('/auth', authRoutes);
-
-
-// Simple Test Route
-app.get('/', (req, res) => {
-  res.send("Hello from Habit Tracker API!!");
-});
-
-// app.get('/habits', async (req, res) => {
-//     try {
-//         const habit = await Habit.create(req.body);
-//         res.status(200).json(habit);
-//     } catch (err) {
-//         res.status(500).json({message: err.message})
-//     }
-// })
-
-
 // connect to mongodb 
 const dbURI = 'mongodb+srv://habitUser:tIPBWJB3NhGf5ZoZ@hebit-tracker-cluster.s1de7.mongodb.net/habit-Tracker-database?retryWrites=true&w=majority&appName=Hebit-Tracker-Cluster'
 
 app.use(express.static('public'));
-
 
 // Connect to MongoDB and Start Serv
 mongoose.connect(dbURI, {
@@ -47,10 +26,30 @@ mongoose.connect(dbURI, {
 })
   .then(() => {
     console.log('Connected!');
-    app.listen(3000, ()=>{
-        console.log("Server is runing on port 3000");
+    app.listen(8000, ()=>{
+        console.log("Server is runing");
     })
 })
     .catch((error) => {
         console.error('Connection to MongoDB failed:', error.message);
     });
+
+
+// Use Routes
+// app.use('/auth', authRoutes);
+// app.use('/users', userRoutes);
+app.use('/habits', habitRoutes);
+
+
+// Simple Test Route
+app.get('/', (req, res) => {
+  res.send("Hello from Habit Tracker API!!");
+});
+
+// Handle undefined routes
+app.use((req, res) => {
+  res.status(404).json({ message: 'Endpoint Not Found' });
+});
+
+
+module.exports = app;
