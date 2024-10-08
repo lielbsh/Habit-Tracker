@@ -6,7 +6,7 @@ const cors = require('cors');
 // Import Routes
 // const authRoutes = require('./routes/authRoutes');
 // const userRoutes = require('./routes/usersRoutes');
-const habitRoutes = require('./routes/habitsRouts');
+const Routes = require('./routes/authRoutes');
 
 const app = express()
 
@@ -36,15 +36,13 @@ mongoose.connect(dbURI, {
 
 
 // Use Routes
-// app.use('/auth', authRoutes);
-// app.use('/users', userRoutes);
-app.use('/habits', habitRoutes);
+app.use('/', Routes);
 
 
 // Simple Test Route
-app.get('/', (req, res) => {
-  res.send("Hello from Habit Tracker API!!");
-});
+// app.get('/', (req, res) => {
+//   res.send("Hello from Habit Tracker API!!");
+// });
 
 // Handle undefined routes
 app.use((req, res) => {
