@@ -1,23 +1,27 @@
 const Habit = require('../models/habit.model.js');
 const User= require('../models/users.model.js');
 
-const getUser = async (req, res) => {
-    console.log(req.params)
+const createHabitForUser = async (userId, habitData) => {
     try {
-        const user = await User
-            .findById(req.params.id)
-            .populate('habits')
-        if (!user) {
-            return res.status(404).json({ message: 'User not found.' });
-        }
-
+      // Create a new habit
+      const newHabit = await Habit.create({
+        user: userId,
+        ...habitData
+      });
+        // Find the user and add the new habit's ID to habits array
+      const user = await User.findByIdAndUpdate(
+        userId,
+        { $push: { habits: newHabit._id } }, // Add habit ID to the user's habits array
+        { new: true }
+      );
+      console.log('Habit created and added to user:', user);
     } catch (error) {
-        console.error('Error fetching user details:', error);
-        res.status(500).json({ message: 'Server error', error });
+      console.error('Error creating habit:', error);
     }
-}
+  };
+  
 
-async function getHabits(res) {
+async function getHabits(req, res) {
     try {
         const habits = await Habit.find(); // Fetch habits from MongoDB
         // const habits = await Habit.find({ user: req.user._id })
@@ -30,7 +34,7 @@ async function getHabits(res) {
       }    
 }
 
-async function addHabit(req, res) {
+async function createHabit(req, res) {
     const { name, description, user } = req.body;
     try { 
         const newHabit = new Habit({
@@ -39,9 +43,8 @@ async function addHabit(req, res) {
              user,
              }); 
         await newHabit.save(); 
-
-        // Respond with the newly created habit
         res.json({ message: 'Habit added successfully', habit: newHabit });
+        
     } catch (error) {
         res.json({ message: 'Error adding habit', error });
     }    
@@ -49,5 +52,5 @@ async function addHabit(req, res) {
 
 module.exports = {
     getHabits,
-    addHabit,
+    createHabit,
 };

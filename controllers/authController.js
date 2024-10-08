@@ -112,7 +112,8 @@ exports.getUserInfo = async (req, res) => {
     const userId = req.query.userId; 
 
     try {
-      const user = await User.findById(userId).select('-password'); // Exclude password from the result
+      const user = await User.findById(userId).select('-password')
+      .populate("habits"); // Exclude password from the result
       if (!user) {
         console.log('User not found')
         return res.status(404).json({ message: 'User not found' });
