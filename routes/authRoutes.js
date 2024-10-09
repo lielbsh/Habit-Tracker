@@ -10,7 +10,7 @@ router.get('/login', authController.getUserInfo); // Route for user login
 
 
 // habitsRouts
-router.get('/habits', (req, res) => habitController.getHabits(res));
+// router.get('/habits', (req, res) => habitController.getHabits(res));
 router.post('/habits', habitController.createHabit);
 
 

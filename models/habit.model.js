@@ -17,22 +17,22 @@ const habitSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
-  // frequency: {
-  //   type: String,
-  //   enum: ['Daily', 'Weekly', 'Monthly'],
-  //   required: [true, 'Please select a frequency'],
-  // },
-  // startDate: {
-  //   type: Date,
-  //   default: Date.now,
-  // },
-  // completedDates: [{
-  //   type: Date,
-  // }],
-  // streak: {
-  //   type: Number,
-  //   default: 0,
-  // },
+  frequency: {
+    type: String,
+    enum: ['Daily', 'Weekly', 'Monthly'],
+    required: [true, 'Please select a frequency'],
+  },
+  startDate: {
+    type: Date,
+    default: Date.now,
+  },
+  completedDates: [{
+    type: Date,
+  }],
+  streak: {
+    type: Number,
+    default: 0,
+  },
 }, { timestamps: true });
 
 // Create the Habit model
