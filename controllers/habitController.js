@@ -25,7 +25,7 @@ async function createHabit(req, res) {
         startDate: new Date(), // Automatically set start date to now
       });
         await newHabit.save(); // Save the new habit
-
+        console.log('new habit saved', newHabit)
         // Updates the user's habits array
         const user = await User.findById(userId); // Find the user by userId
         if (!user) {
@@ -42,6 +42,38 @@ async function createHabit(req, res) {
     }    
 }
 
+
+async function deleteHabit(req, res) {
+  const { habitId } = req.params;
+  const userId = req.headers['user-id'];  // Extract userId from request headers
+
+  try {
+      if (!userId) {
+          return res.status(400).json({ message: 'User ID is required' });
+      }
+
+      const habitToDelete = await Habit.findById(habitId);
+      if (!habitToDelete) {
+          return res.status(404).json({ message: 'Habit not found' });
+      }
+
+      await User.findByIdAndUpdate(userId, { $pull: { habits: habitId } });
+      await Habit.findByIdAndDelete(habitId);
+
+      const updatedUser = await User.findById(userId).populate('habits');
+      const updatedHabits = updatedUser.habits;
+      console.log('updatedHabits',updatedHabits)
+      console.log('updatedUser', updatedUser)
+      return res.status(200).json({ message: 'Habit deleted successfully', habits: updatedHabits });
+  } catch (error) {
+      console.error('Error deleting habit:', error);
+      return res.status(500).json({ message: 'Server error' });
+  }
+}
+
+
+
 module.exports = {
     createHabit,
+    deleteHabit,
 };

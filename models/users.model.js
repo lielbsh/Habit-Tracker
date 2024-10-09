@@ -20,13 +20,6 @@ const userSchema = new Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: "Habit"
     }]
-    // firstName: {
-    //   type: String,
-    // },
-    // updatedAt: {
-    //   type: Date,
-    //   default: Date.now,
-    // },
     
 },{timestamps: true});
 

@@ -8,10 +8,9 @@ router.post('/register', authController.register); // Route for user registratio
 router.post('/login', authController.login); // Route for user login
 router.get('/login', authController.getUserInfo); // Route for user login
 
-
 // habitsRouts
 // router.get('/habits', (req, res) => habitController.getHabits(res));
 router.post('/habits', habitController.createHabit);
-
+router.delete('/habits/:habitId', habitController.deleteHabit);
 
 module.exports = router;
