@@ -10,7 +10,8 @@ router.get('/login', authController.getUserInfo); // Route for user login
 
 // habitsRouts
 // router.get('/habits', (req, res) => habitController.getHabits(res));
-router.post('/habits', habitController.createHabit);
+router.post('/habits/create', habitController.createHabit);
 router.delete('/habits/:habitId', habitController.deleteHabit);
+router.post('/habits/complete', habitController.completeHabit);
 
 module.exports = router;

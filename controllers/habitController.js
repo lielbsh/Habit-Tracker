@@ -1,3 +1,4 @@
+const { update } = require('lodash');
 const Habit = require('../models/habit.model.js');
 const User= require('../models/users.model.js');
 
@@ -42,7 +43,6 @@ async function createHabit(req, res) {
     }    
 }
 
-
 async function deleteHabit(req, res) {
   const { habitId } = req.params;
   const userId = req.headers['user-id'];  // Extract userId from request headers
@@ -71,9 +71,45 @@ async function deleteHabit(req, res) {
   }
 }
 
+async function completeHabit(req, res) {
+  const { habit } = req.body; 
+  const userId = habit.user; 
+  const habitId = habit._id;
 
+  try { 
+    // Update the existing habit
+    const updatedHabit = await Habit.findByIdAndUpdate(
+      habitId, // Correctly use habitId
+      {
+        startDate: new Date(),
+        completedDates: [] 
+      },
+      { new: true } // This option returns the updated document
+    );
+    if (!updatedHabit) {
+      return res.status(404).json({ message: 'Habit not found' });
+    }
+
+    console.log('Habit updated', updatedHabit);
+
+    // Updates the user's habits array
+    const user = await User.findById(userId); // Find the user by Id
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Im not updating the user's habits array, it will updated when user logout. See updateuser function
+    
+    return res.status(200).json({ message: 'Habit completed', updatedHabit });
+  } catch (error) {
+    console.error('Error completing habit:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+}
 
 module.exports = {
     createHabit,
     deleteHabit,
+    completeHabit,
 };
