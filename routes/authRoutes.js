@@ -12,6 +12,6 @@ router.get('/login', authController.getUserInfo); // Route for user login
 // router.get('/habits', (req, res) => habitController.getHabits(res));
 router.post('/habits/create', habitController.createHabit);
 router.delete('/habits/:habitId', habitController.deleteHabit);
-router.post('/habits/complete', habitController.completeHabit);
+router.post('/habits/update', habitController.updateHabit);
 
 module.exports = router;

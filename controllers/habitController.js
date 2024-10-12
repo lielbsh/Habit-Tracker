@@ -64,46 +64,31 @@ async function deleteHabit(req, res) {
       const updatedHabits = updatedUser.habits;
       console.log('updatedHabits',updatedHabits)
       console.log('updatedUser', updatedUser)
-      return res.status(200).json({ message: 'Habit deleted successfully', habits: updatedHabits });
+      return res.status(200).json({ message: 'Habit deleted successfully' });
   } catch (error) {
       console.error('Error deleting habit:', error);
       return res.status(500).json({ message: 'Server error' });
   }
 }
 
-async function completeHabit(req, res) {
-  const { habit } = req.body; 
-  const userId = habit.user; 
-  const habitId = habit._id;
+async function updateHabit(req, res) {
+  const { updatedHabit } = req.body;
+  console.log('updatedHabit that sends', updatedHabit) 
+  const userId = updatedHabit.user; 
+  const habitId = updatedHabit._id;
 
   try { 
-    // Update the existing habit
-    const updatedHabit = await Habit.findByIdAndUpdate(
-      habitId, // Correctly use habitId
-      {
-        startDate: new Date(),
-        completedDates: [] 
-      },
-      { new: true } // This option returns the updated document
+    // Find the habit and updates it
+    await Habit.findByIdAndUpdate(
+      habitId, 
+      { ...updatedHabit }, // Spread the updatedHabit object to update its fields
+      { new: true } // Return the updated document
     );
-    if (!updatedHabit) {
-      return res.status(404).json({ message: 'Habit not found' });
-    }
 
-    console.log('Habit updated', updatedHabit);
+    return res.status(200).json({ message: 'Habit updated successfully'});
 
-    // Updates the user's habits array
-    const user = await User.findById(userId); // Find the user by Id
-
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    // Im not updating the user's habits array, it will updated when user logout. See updateuser function
-    
-    return res.status(200).json({ message: 'Habit completed', updatedHabit });
   } catch (error) {
-    console.error('Error completing habit:', error);
+    console.error('Error updating habit:', error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 }
@@ -111,5 +96,5 @@ async function completeHabit(req, res) {
 module.exports = {
     createHabit,
     deleteHabit,
-    completeHabit,
+    updateHabit,
 };
