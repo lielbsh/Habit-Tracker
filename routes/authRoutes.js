@@ -6,7 +6,7 @@ const habitController = require('../controllers/habitController');
 // authRouts
 router.post('/register', authController.register); // Route for user registration
 router.post('/login', authController.login); // Route for user login
-router.get('/login', authController.getUserInfo); // Route for user login
+router.get('/user/:id', authController.getUserInfo); // Route for user login
 
 // habitsRouts
 // router.get('/habits', (req, res) => habitController.getHabits(res));

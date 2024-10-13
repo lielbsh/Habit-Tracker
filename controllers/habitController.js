@@ -62,9 +62,12 @@ async function deleteHabit(req, res) {
 
       const updatedUser = await User.findById(userId).populate('habits');
       const updatedHabits = updatedUser.habits;
+
       console.log('updatedHabits',updatedHabits)
       console.log('updatedUser', updatedUser)
+
       return res.status(200).json({ message: 'Habit deleted successfully' });
+      
   } catch (error) {
       console.error('Error deleting habit:', error);
       return res.status(500).json({ message: 'Server error' });
@@ -73,8 +76,9 @@ async function deleteHabit(req, res) {
 
 async function updateHabit(req, res) {
   const { updatedHabit } = req.body;
-  console.log('updatedHabit that sends', updatedHabit) 
-  const userId = updatedHabit.user; 
+  console.log(req.body);
+  console.log('updatedHabit', updatedHabit) 
+  const userId = updatedHabit.user[0]
   const habitId = updatedHabit._id;
 
   try { 
