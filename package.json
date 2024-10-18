@@ -11,9 +11,12 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": "14.x"
+  },
   "dependencies": {
     "bcrypt": "^5.1.1",
-    "cookie-parser": "^1.4.7",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "eslint": "^8.0.0",
@@ -21,7 +24,7 @@
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
     "mongodb": "^6.9.0",
-    "mongoose": "^8.7.0",
+    "mongoose": "^8.0.2",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
