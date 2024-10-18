@@ -2,28 +2,16 @@ const { update } = require('lodash');
 const Habit = require('../models/habit.model.js');
 const User= require('../models/users.model.js');
 
-// async function getHabits(req, res) {
-//     try {
-//         const habits = await Habit.find(); // Fetch habits from MongoDB
-//         // const habits = await Habit.find({ user: req.user._id })
-//         //     .populate('user', 'email', 'password'); // Populating the 'user'
-
-//         res.json(habits); // Send habits data as JSON
-//     } catch (error) {
-//         console.log(error)
-//         res.status(500).json({ message: 'Error fetching habits', error })
-//       }    
-// }
-
 async function createHabit(req, res) {
-  const { name, description, frequency, userId } = req.body;
+  const { name, description, frequency, startDate } = req.body;
+  let userId = req.decodedToken.id
     try { 
       const newHabit = new Habit({
         name,
         description,
         frequency,   
         user: [userId], // User ID added as an array
-        startDate: new Date(), // Automatically set start date to now
+        startDate,
       });
         await newHabit.save(); // Save the new habit
         console.log('new habit saved', newHabit)
@@ -45,7 +33,7 @@ async function createHabit(req, res) {
 
 async function deleteHabit(req, res) {
   const { habitId } = req.params;
-  const userId = req.headers['user-id'];  // Extract userId from request headers
+  const userId = req.decodedToken.id; // Get userId from decoded token
 
   try {
       if (!userId) {
@@ -64,7 +52,6 @@ async function deleteHabit(req, res) {
       const updatedHabits = updatedUser.habits;
 
       console.log('updatedHabits',updatedHabits)
-      console.log('updatedUser', updatedUser)
 
       return res.status(200).json({ message: 'Habit deleted successfully' });
       
@@ -76,20 +63,30 @@ async function deleteHabit(req, res) {
 
 async function updateHabit(req, res) {
   const { updatedHabit } = req.body;
-  console.log(req.body);
   console.log('updatedHabit', updatedHabit) 
-  const userId = updatedHabit.user[0]
+  const userId = req.decodedToken.id; // Get userId from decoded token
   const habitId = updatedHabit._id;
 
-  try { 
-    // Find the habit and updates it
-    await Habit.findByIdAndUpdate(
+  try {
+    // Find the habit by ID
+    const habit = await Habit.findById(habitId);
+    if (!habit) {
+      return res.status(404).json({ message: 'Habit not found' });
+    }
+
+    // Check if the habit belongs to the user
+    if (!habit.user.includes(userId)) {
+      return res.status(403).json({ message: 'Unauthorized to update this habit' });
+    }
+
+    // Update the habit
+    const updatedHabitDocument = await Habit.findByIdAndUpdate(
       habitId, 
       { ...updatedHabit }, // Spread the updatedHabit object to update its fields
       { new: true } // Return the updated document
     );
 
-    return res.status(200).json({ message: 'Habit updated successfully'});
+    return res.status(200).json({ message: 'Habit updated successfully', habit: updatedHabitDocument });
 
   } catch (error) {
     console.error('Error updating habit:', error);

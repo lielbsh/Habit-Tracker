@@ -33,6 +33,11 @@ const habitSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  bestStreak: {
+    type: Number,
+    default: 0,
+  },
+
 }, { timestamps: true });
 
 // Create the Habit model
