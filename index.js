@@ -10,9 +10,7 @@ const app = express()
 
 // Middleware
 const corsOptions = {
-    origin: function (origin, callback) {
-        callback(null, origin);
-    },
+    origin: true, 
     method: "GET, HEAD, PUT, PATCH, POST, DELETE",
     credentials: true,
     allowedHeaders: "Content-Type, Authorization"
