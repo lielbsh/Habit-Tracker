@@ -33,7 +33,7 @@ mongoose.connect(dbURI, {
 })
   .then(() => {
     app.listen( process.env.PORT || 8000, ()=>{
-        console.log("Server is runing");
+        console.log("Server is runing on port", process.env.PORT || 8000);
     })
 })
     .catch((error) => {
