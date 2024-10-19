@@ -70,7 +70,12 @@ exports.login = async (req, res) => {
     if (result) {
       // Passwords match, Create token and send the token in a cookie
       let token = createtoken(user._id)
-      res.cookie('jwt', token, { httpOnly: false, secure: true, maxAge: 60*60*1000*48 });
+      res.cookie('jwt', token, { 
+        httpOnly: false, 
+        secure: true, 
+        sameSite: 'None', // Required for cross-site cookie handling
+        maxAge: 60*60*1000*48 
+      });
       res.status(201).json({ message: 'Login successful' });
       console.log('Create token and send the token in a cookie')
 
