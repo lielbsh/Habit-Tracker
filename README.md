@@ -32,21 +32,6 @@ You can create a new account or log in with the test credentials:
 
 ---
 
-## ⚙️ Technologies Used (Backend)
-
-&emsp;
-<a href="https://nodejs.org/" target="_blank">
-  <img alt="Node.js" src="https://img.shields.io/badge/Node.js-%23339933.svg?style=for-the-badge&logo=node.js&logoColor=white">
-</a>
-&emsp;
-<a href="https://www.mongodb.com/" target="_blank">
-  <img alt="MongoDB" src="https://img.shields.io/badge/MongoDB-%23039BE0.svg?style=for-the-badge&logo=mongodb&logoColor=white">
-</a>
-&emsp;
-<a href="https://bcryptjs.github.io/" target="_blank"> 
-  <img alt="bcrypt" src="https://img.shields.io/badge/bcrypt-%23232F3E.svg?style=for-the-badge&logo=npm&logoColor=white"> 
-</a>
-
 ## 🔧 Technologies Used (Frontend)
 
 The front of this application was built with **React** and styled using **Tailwind CSS**. Explore the code [here](https://github.com/lielbsh/HabitTrackerFront).
