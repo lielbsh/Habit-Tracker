@@ -32,6 +32,15 @@ You can create a new account or log in with the test credentials:
 
 ---
 
-## 🔧 Technologies Used (Frontend)
+## ⚙️ Technologies Used (Frontend)
 
-The front of this application was built with **React** and styled using **Tailwind CSS**. Explore the code [here](https://github.com/lielbsh/HabitTrackerFront).
+&emsp;
+<a href="https://reactjs.org/" target="_blank"> 
+   <img alt="React" src="https://img.shields.io/badge/React-%2361DAFB.svg?style=for-the-badge&logo=react&logoColor=black"> 
+</a>
+&emsp;
+<a href="https://tailwindcss.com/" target="_blank"> 
+  <img alt="TailwindCSS" src="https://img.shields.io/badge/TailwindCSS-%2306B6D4.svg?style=for-the-badge&logo=tailwindcss&logoColor=white"> 
+</a>
+
+Explore the code [here](https://github.com/lielbsh/HabitTrackerFront).
